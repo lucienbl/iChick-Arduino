@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "ServerHelper.h"
 #include <Ethernet.h>
+#include "Router.h"
 
 ServerHelper::ServerHelper(int port) {
     server = EthernetServer(port);
@@ -20,6 +21,7 @@ void ServerHelper::init() {
 
 void ServerHelper::handleConnexion() {
     EthernetClient client = server.available();
+    Router router;
 
     if (client) {
         if (client.connected()) {
@@ -29,7 +31,7 @@ void ServerHelper::handleConnexion() {
                 httpHeader += c;
             }
 
-            client.print(buildJsonResponse("{}")); // TODO
+            client.print(buildJsonResponse(router.route(httpHeader)));
 
             client.stop();
         }
