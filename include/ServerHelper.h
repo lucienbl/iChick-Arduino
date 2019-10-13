@@ -7,12 +7,12 @@ class ServerHelper {
     EthernetServer server = EthernetServer(80);
 
 public:
-    ServerHelper(int port);
+    explicit ServerHelper(int port);
     void init();
     void handleConnexion();
 
 private:
-    String buildJsonResponse(String json);
+    static String buildJsonResponse(const String& json);
 };
 
 

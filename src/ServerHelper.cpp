@@ -11,10 +11,10 @@ void ServerHelper::init() {
     Serial.println("Initializing server...");
 
     byte mac[] = {0x90, 0xA2, 0xDA, 0x0F, 0xDF, 0xAB};
-    Ethernet.begin(mac);
+    EthernetClass::begin(mac);
 
     Serial.print("Server successfully started on: ");
-    Serial.println(Ethernet.localIP());
+    Serial.println(EthernetClass::localIP());
 
     server.begin();
 }
@@ -38,7 +38,7 @@ void ServerHelper::handleConnexion() {
     }
 }
 
-String ServerHelper::buildJsonResponse(String json) {
+String ServerHelper::buildJsonResponse(const String& json) {
     String response;
     response += "HTTP/1.1 200 OK\n";
     response += "Content-Type: application/json;charset=utf-8\n";
