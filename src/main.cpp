@@ -9,8 +9,7 @@
 #define DHT11_PIN 3
 
 // Actions
-#define ACTION_DOOR_OPEN 1
-#define ACTION_DOOR_CLOSE 2
+#define ACTION_DOOR_TOGGLE 1
 
 // Cards
 #define CARD_MAIN_2 4
@@ -43,14 +42,8 @@ String dht11(char *params = "") {
     return "{\"humidity\": " + String((float) DHT11.humidity, 2) + ", \"temperature\": " + String((float) DHT11.temperature, 2) + "}";
 }
 
-String openDoor(char *params = "") {
-    i2cTransmit(CARD_MAIN_2, ACTION_DOOR_OPEN);
-
-    return String(R"({"success": true})");
-}
-
-String closeDoor(char *params = "") {
-    i2cTransmit(CARD_MAIN_2, ACTION_DOOR_CLOSE);
+String toggleDoor(char *params = "") {
+    i2cTransmit(CARD_MAIN_2, ACTION_DOOR_TOGGLE);
 
     return String(R"({"success": true})");
 }
@@ -69,8 +62,7 @@ void setup() {
     restApi.addRoute(GET, "/led", &led);
     restApi.addRoute(GET, "/waterLevel", &waterLevel);
     restApi.addRoute(GET, "/dht11", &dht11);
-    restApi.addRoute(GET, "/openDoor", &openDoor);
-    restApi.addRoute(GET, "/closeDoor", &closeDoor);
+    restApi.addRoute(GET, "/toggleDoor", &toggleDoor);
 }
 
 void loop() {
